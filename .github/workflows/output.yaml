@@ -1,8 +1,14 @@
-name: Output information
+name: Output GitHub Context
+
 on: workflow_dispatch
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: O/p Gh context
-        run: '${{ toJSON(github) }}'
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Output github context
+        run: |
+          echo '${{ toJSON(github) }}'
