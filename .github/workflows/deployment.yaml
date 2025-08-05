@@ -12,22 +12,9 @@ jobs:
     steps:
       - name: Starter job
         run: echo "Start the workflow"
-  # lint:
-  #   runs-on: ubuntu-latest
-  #   steps: 
-  #     - name: Get code
-  #       uses: actions/checkout@v4
-  #     - name: Load and cache dependencies
-  #       uses: ./.github/actions/cached-deps
-  #       with:
-  #         caching: 'false'
-  #     - name: Output information
-  #       run: echo "Cache used? ${{ steps.cache-deps.outputs.used-cache }}"
-  #     - name: Lint code
-  #       run: npm run lint
-  test:
+  lint:
     runs-on: ubuntu-latest
-    steps:
+    steps: 
       - name: Get code
         uses: actions/checkout@v4
       - name: Load and cache dependencies
@@ -36,6 +23,18 @@ jobs:
           caching: 'false'
       - name: Output information
         run: echo "Cache used? ${{ steps.cache-deps.outputs.used-cache }}"
+      - name: Lint code
+        run: npm run lint
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Cache Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install Dependencies
         run: npm ci
       - name: Run Tests
@@ -96,7 +95,7 @@ jobs:
         run: echo "${{ needs.deploy.outputs.result }}"
 
   report:
-    needs: [test,deploy]
+    needs: [lint,deploy]
     if: failure()
     runs-on: ubuntu-latest
     steps:
