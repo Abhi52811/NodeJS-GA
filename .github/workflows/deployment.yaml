@@ -96,7 +96,7 @@ jobs:
         run: echo "${{ needs.deploy.outputs.result }}"
 
   report:
-    needs: [lint,deploy]
+    needs: [test,deploy]
     if: failure()
     runs-on: ubuntu-latest
     steps:
