@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import MainContent from './MainContent';
+// import MainContent from './MainContent';
 
 // My tests!
 // Add yet another comment
